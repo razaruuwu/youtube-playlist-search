@@ -41,4 +41,4 @@ playlist_name = youtube.playlists().list(part="snippet", id=playlist_id, maxResu
 with open(f'files/{playlist_name} - video list.txt', 'w+', encoding='utf-8') as f:
     for i in range(len(m['items'])):
         f.write(f"{i+1}. {m['items'][i]['snippet']['title']}\n")
-        f.write(f"https://www.youtube.com/watch?v={m['items'][0]['snippet']['resourceId']['videoId']}\n\n")
+        f.write(f"https://www.youtube.com/watch?v={m['items'][i]['snippet']['resourceId']['videoId']}\n\n")
