@@ -38,7 +38,15 @@ m = fetch(playlist_id)
 youtube = build('youtube', 'v3', developerKey=api_key)
 playlist_name = youtube.playlists().list(part="snippet", id=playlist_id, maxResults="50").execute()['items'][0]['snippet']['localized']['title']
 
-with open(f'files/{playlist_name} - video list.txt', 'w+', encoding='utf-8') as f:
+with open(f'files/{playlist_name} - playlist dump.txt', 'w+', encoding='utf-8') as f:
     for i in range(len(m['items'])):
-        f.write(f"{i+1}. {m['items'][i]['snippet']['title']}\n")
-        f.write(f"https://www.youtube.com/watch?v={m['items'][i]['snippet']['resourceId']['videoId']}\n\n")
+        f.write('{\n')
+        try:
+            f.write(
+                f"number: {i + 1}\ntitle: {m['items'][i]['snippet']['title']}\nchannel: {m['items'][i]['snippet']['videoOwnerChannelTitle']}\n")
+            f.write(f"link: https://www.youtube.com/watch?v={m['items'][i]['snippet']['resourceId']['videoId']}\n")
+            f.write(f"description: {m['items'][i]['snippet']['description']}\n")
+        except:
+            f.write(f'number: {i + 1}\n')
+            f.write('DELETED VIDEO\n')
+        f.write('}\n\n')
